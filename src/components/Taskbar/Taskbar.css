@@ -1,0 +1,685 @@
+﻿.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(32, 32, 32, 0.85);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 8px;
+  z-index: 10000;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Left Section */
+.taskbar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+/* Start Button - Windows 11 Style */
+.start-button {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.start-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.start-button-active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.start-button-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Search Button - Windows 11 Style */
+.search-button {
+  height: 32px;
+  min-width: 240px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-button-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.search-button-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Taskbar Apps */
+.taskbar-apps {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 12px;
+}
+
+.taskbar-app {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.taskbar-app:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.taskbar-app-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Center Section - Open Windows */
+.taskbar-center {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+  max-width: 40%;
+  margin: 0 auto;
+}
+
+.taskbar-window {
+  min-width: 160px;
+  max-width: 200px;
+  height: 40px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  padding: 0;
+}
+
+.taskbar-window:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.taskbar-window-active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.taskbar-window-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  height: 100%;
+}
+
+.taskbar-window-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.taskbar-window-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.taskbar-window-indicator {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 2px;
+  opacity: 0;
+}
+
+.taskbar-window-active .taskbar-window-indicator {
+  opacity: 1;
+}
+
+/* Right Section - System Tray */
+.taskbar-right {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.system-tray {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 4px;
+  height: 32px;
+}
+
+.tray-icons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.tray-icon {
+  width: 28px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
+  transition: background 0.15s ease;
+  position: relative;
+}
+
+.tray-icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tray-icon.hidden-icons {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.tray-separator {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 4px;
+}
+
+.tray-icon-img {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tray-icon.hidden-icons .tray-icon-img {
+  width: 10px;
+  height: 10px;
+  opacity: 0.6;
+}
+
+.time-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 4px 8px;
+  min-width: 70px;
+  height: 32px;
+  transition: background 0.15s ease;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  gap: 1px;
+}
+
+.time-date:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.time {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.date {
+  font-size: 10px;
+  opacity: 0.8;
+  line-height: 1.2;
+}
+
+.show-desktop {
+  width: 4px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 4px;
+  position: relative;
+}
+
+.show-desktop-line {
+  width: 2px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+  transition: background 0.15s ease;
+}
+
+.show-desktop:hover .show-desktop-line {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Start Menu - Windows 11 Style */
+.start-menu {
+  position: fixed;
+  bottom: 52px;
+  left: 12px;
+  width: 480px;
+  height: 540px;
+  background: rgba(33, 33, 33, 0.95);
+  backdrop-filter: blur(40px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 10001;
+}
+
+.start-menu-search {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px 10px 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-icon-img {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.start-menu-content {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pinned-apps {
+  flex: 1;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pinned-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: white;
+}
+
+.pinned-app:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pinned-app-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.pinned-app-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.pinned-app-name {
+  font-size: 11px;
+  font-weight: 400;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.recommended-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 16px;
+}
+
+.section-title {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.recommended-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recommended-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  color: white;
+  text-align: left;
+  width: 100%;
+}
+
+.recommended-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.item-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.item-subtitle {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.start-menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  color: white;
+}
+
+.user-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0078d4, #00bcf2);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.user-name {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.power-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.power-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  color: white;
+}
+
+.power-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.power-button-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Power Menu */
+.power-menu {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  width: 220px;
+  background: rgba(40, 40, 40, 0.95);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 8px;
+  z-index: 10002;
+}
+
+.power-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  color: white;
+  text-align: left;
+  width: 100%;
+}
+
+.power-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.power-option-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.power-option-img {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.power-option-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.power-option-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.power-option-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(8px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.start-menu {
+  animation: fadeIn 0.15s ease-out;
+}
+
+.power-menu {
+  animation: fadeIn 0.1s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-button {
+    min-width: 180px;
+  }
+  
+  .taskbar-center {
+    max-width: 30%;
+  }
+  
+  .taskbar-window {
+    min-width: 120px;
+  }
+  
+  .start-menu {
+    width: 360px;
+    height: 480px;
+  }
+}

@@ -1,0 +1,91 @@
+﻿.desktop {
+  width: 100%;
+  height: 100%;
+  background-image: url('/wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  user-select: none;
+}
+
+.desktop-icons {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: fit-content;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.desktop-icon:active {
+  transform: scale(0.95);
+}
+
+.desktop-icon-image {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  color: white; /* Ovo dodaj */
+}
+
+.desktop-icon-image svg {
+  color: white; /* Ovo osigurava da su ikonice bijele */
+}
+
+.desktop-icon-label {
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.desktop-icon:hover .desktop-icon-label {
+  background: rgba(255, 255, 255, 0.2);
+}
+/* Dodaj u Taskbar.css i Desktop.css */
+.app-icon-text {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Za desktop ikonice */
+.desktop-icon-image .app-icon-text {
+  font-size: 32px;
+}
+
+/* Za taskbar ikonice */
+.taskbar-app .app-icon-text,
+.taskbar-window-icon .app-icon-text {
+  font-size: 18px;
+}
+
+/* Za start menu ikonice */
+.app-icon-wrapper .app-icon-text {
+  font-size: 24px;
+}

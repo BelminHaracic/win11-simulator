@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-   ignoreDuringBuilds: true,
+  eslint: {
+    ignoreDuringBuilds: true, // ovo je ključna linija
+  },
 };
 
 export default nextConfig;

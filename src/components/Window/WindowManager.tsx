@@ -1,5 +1,5 @@
-﻿'use client';
-import { useWindowStore } from '@/stores/windowStore';
+'use client';
+import { useWindowStore, WindowState } from '@/stores/windowStore';
 import Window from './Window';
 import './Apps.css';
 import FileExplorer from '../Apps/FileExplorer';
@@ -12,7 +12,7 @@ import PixelArt from '../Apps/creative/PixelArt';
 export default function WindowManager() {
   const { windows } = useWindowStore();
 
-  const renderAppContent = (window: any) => {
+  const renderAppContent = (window: WindowState) => {
     switch (window.type) {
       case 'notepad':
         return (
@@ -80,7 +80,6 @@ export default function WindowManager() {
         );
       case 'settings':
         return <SettingsApp />;
-      // DODAJ OVE NOVE CASE-OVE
       case 'space-invaders':
         return <SpaceInvaders />;
       case 'music-player':

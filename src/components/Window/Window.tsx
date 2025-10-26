@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { useWindowStore, WindowState } from '@/stores/windowStore';
@@ -23,62 +23,32 @@ export default function Window({ window: windowProp, children }: WindowProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [resizeStart, setResizeStart] = useState({ 
-    x: 0, y: 0, 
-    width: 0, height: 0,
-    direction: ''
+  const [resizeStart, setResizeStart] = useState({
+    x: 0, y: 0, width: 0, height: 0, direction: ''
   });
 
   // Destructure prop to avoid conflict with global window object
   const { minimized, maximized, position, size, id, focused, type, title, zIndex } = windowProp;
 
-  if (minimized) {
-    return null;
-  }
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target instanceof HTMLElement && 
-        (e.target.closest('.window-control') || e.target.closest('.resize-handle'))) {
-      return;
-    }
-    
-    focusWindow(id);
-    setIsDragging(true);
-    setDragOffset({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y
-    });
-  };
-
-  const handleResizeMouseDown = (e: React.MouseEvent, direction: string) => {
-    e.stopPropagation();
-    focusWindow(id);
-    setIsResizing(true);
-    setResizeStart({
-      x: e.clientX,
-      y: e.clientY,
-      width: size.width,
-      height: size.height,
-      direction
-    });
-  };
-
+  // ---- Hooks i logika se uvijek pozivaju, bez uvjetnog return ----
   useEffect(() => {
+    if (minimized) return; // early exit unutar useEffect
+
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging && !maximized) {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-        
+
         const newX = Math.max(0, Math.min(e.clientX - dragOffset.x, viewportWidth - 100));
         const newY = Math.max(0, Math.min(e.clientY - dragOffset.y, viewportHeight - 50));
-        
+
         updateWindowPosition(id, { x: newX, y: newY });
       }
 
       if (isResizing && !maximized) {
         const deltaX = e.clientX - resizeStart.x;
         const deltaY = e.clientY - resizeStart.y;
-        
+
         let newWidth = resizeStart.width;
         let newHeight = resizeStart.height;
         let newX = position.x;
@@ -86,39 +56,31 @@ export default function Window({ window: windowProp, children }: WindowProps) {
 
         switch (resizeStart.direction) {
           case 'right':
-            newWidth = Math.max(320, resizeStart.width + deltaX);
-            break;
+            newWidth = Math.max(320, resizeStart.width + deltaX); break;
           case 'bottom':
-            newHeight = Math.max(240, resizeStart.height + deltaY);
-            break;
+            newHeight = Math.max(240, resizeStart.height + deltaY); break;
           case 'bottom-right':
             newWidth = Math.max(320, resizeStart.width + deltaX);
-            newHeight = Math.max(240, resizeStart.height + deltaY);
-            break;
+            newHeight = Math.max(240, resizeStart.height + deltaY); break;
           case 'left':
             newWidth = Math.max(320, resizeStart.width - deltaX);
-            newX = Math.max(0, position.x + deltaX);
-            break;
+            newX = Math.max(0, position.x + deltaX); break;
           case 'top':
             newHeight = Math.max(240, resizeStart.height - deltaY);
-            newY = Math.max(0, position.y + deltaY);
-            break;
+            newY = Math.max(0, position.y + deltaY); break;
           case 'top-right':
             newWidth = Math.max(320, resizeStart.width + deltaX);
             newHeight = Math.max(240, resizeStart.height - deltaY);
-            newY = Math.max(0, position.y + deltaY);
-            break;
+            newY = Math.max(0, position.y + deltaY); break;
           case 'bottom-left':
             newWidth = Math.max(320, resizeStart.width - deltaX);
             newHeight = Math.max(240, resizeStart.height + deltaY);
-            newX = Math.max(0, position.x + deltaX);
-            break;
+            newX = Math.max(0, position.x + deltaX); break;
           case 'top-left':
             newWidth = Math.max(320, resizeStart.width - deltaX);
             newHeight = Math.max(240, resizeStart.height - deltaY);
             newX = Math.max(0, position.x + deltaX);
-            newY = Math.max(0, position.y + deltaY);
-            break;
+            newY = Math.max(0, position.y + deltaY); break;
         }
 
         updateWindowSize(id, { width: newWidth, height: newHeight });
@@ -147,16 +109,39 @@ export default function Window({ window: windowProp, children }: WindowProps) {
       document.body.style.cursor = '';
     };
   }, [
-    isDragging, 
-    isResizing, 
-    dragOffset, 
-    resizeStart, 
-    maximized, 
-    id, 
-    position,
-    updateWindowPosition, 
-    updateWindowSize
+    isDragging, isResizing, dragOffset, resizeStart, maximized,
+    id, position, updateWindowPosition, updateWindowSize, minimized
   ]);
+
+  // ---- Ako je prozor minimiziran, samo renderaj null u JSX ----
+  if (minimized) return null;
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.target instanceof HTMLElement &&
+        (e.target.closest('.window-control') || e.target.closest('.resize-handle'))) {
+      return;
+    }
+
+    focusWindow(id);
+    setIsDragging(true);
+    setDragOffset({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    });
+  };
+
+  const handleResizeMouseDown = (e: React.MouseEvent, direction: string) => {
+    e.stopPropagation();
+    focusWindow(id);
+    setIsResizing(true);
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      width: size.width,
+      height: size.height,
+      direction
+    });
+  };
 
   const getWindowIcon = (appType: string) => {
     const icons: { [key: string]: string } = {
@@ -191,56 +176,24 @@ export default function Window({ window: windowProp, children }: WindowProps) {
         onClick={() => focusWindow(id)}
       >
         {/* Title Bar */}
-        <div 
-          className="window-titlebar"
-          onMouseDown={handleMouseDown}
-        >
+        <div className="window-titlebar" onMouseDown={handleMouseDown}>
           <div className="titlebar-left">
             <div className="window-icon">{getWindowIcon(type)}</div>
             <span className="window-title">{title || getDefaultTitle(type)}</span>
           </div>
           <div className="titlebar-right">
             <div className="window-controls">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  minimizeWindow(id);
-                }}
-                className="window-control window-minimize"
-                title="Minimize"
-              >
-                <span className="control-symbol">−</span>
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  maximizeWindow(id);
-                }}
-                className="window-control window-maximize"
-                title={maximized ? "Restore" : "Maximize"}
-              >
-                <span className="control-symbol">{maximized ? '❐' : '□'}</span>
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  closeWindow(id);
-                }}
-                className="window-control window-close"
-                title="Close"
-              >
-                <span className="control-symbol">×</span>
-              </button>
+              <button onClick={(e) => { e.stopPropagation(); minimizeWindow(id); }} className="window-control window-minimize" title="Minimize"><span className="control-symbol">−</span></button>
+              <button onClick={(e) => { e.stopPropagation(); maximizeWindow(id); }} className="window-control window-maximize" title={maximized ? "Restore" : "Maximize"}><span className="control-symbol">{maximized ? '❐' : '□'}</span></button>
+              <button onClick={(e) => { e.stopPropagation(); closeWindow(id); }} className="window-control window-close" title="Close"><span className="control-symbol">×</span></button>
             </div>
           </div>
         </div>
 
         {/* Window Content */}
-        <div className="window-content">
-          {children}
-        </div>
+        <div className="window-content">{children}</div>
 
-        {/* Resize Handles - samo kada nije maximized */}
+        {/* Resize Handles */}
         {!maximized && (
           <>
             <div className="resize-handle resize-right" onMouseDown={(e) => handleResizeMouseDown(e, 'right')}/>
